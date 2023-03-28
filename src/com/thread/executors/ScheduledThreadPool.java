@@ -16,5 +16,6 @@ public class ScheduledThreadPool {
     public static void main(String[] args) {
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(new StockMarketUpdater(), 1000, 2000, TimeUnit.MILLISECONDS);
+
     }
 }

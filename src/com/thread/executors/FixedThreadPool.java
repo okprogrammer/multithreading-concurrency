@@ -27,9 +27,18 @@ public class FixedThreadPool {
     public static void main(String[] args) {
 
         ExecutorService executorService = Executors.newFixedThreadPool(5);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             executorService.execute(new Worker(i + 1));
         }
-        executorService.close();
+        // we prevent the executor to execute any further task
+        executorService.shutdown();
+        //terminate actual (running) tasks
+        try {
+            if (!executorService.awaitTermination(1000, TimeUnit.MILLISECONDS)) {
+                executorService.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            executorService.shutdownNow();
+        }
     }
 }
